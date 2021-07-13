@@ -8,6 +8,8 @@ public class App {
         int[] b = {1, 4, 6, 1, 9, 8};
         int[] c = {1, 20, 30, 50, 40, 60, 70};
         int[] d = {1, 2, 3, 4, 5, 7, 6, 8, 9, 10};
+        int[] e = {1, 5, 2, 4, 3, 2};
+        int[] f = {1, 4, 6, 1, 9, 8};
 
         System.out.println("Before swap:");
         System.out.println("a array: " + Arrays.toString(a));
@@ -16,6 +18,13 @@ public class App {
         exchangeValues(a,b);
         System.out.println("a array: " + Arrays.toString(a));
         System.out.println("b array: " + Arrays.toString(b));
+        System.out.println("Before swap:");
+        System.out.println("a array: " + Arrays.toString(e));
+        System.out.println("b array: " + Arrays.toString(f));
+        System.out.println("After swap with XOR:");
+        exchangeValues(e,f);
+        System.out.println("a array: " + Arrays.toString(e));
+        System.out.println("b array: " + Arrays.toString(f));
         System.out.println("Nearly sorted array: " + Arrays.toString(c));
         sortAlmostSortedArray(c);
         System.out.println("Array sorted: " + Arrays.toString(c));
@@ -37,13 +46,13 @@ public class App {
 
         Node secondSubtree = new Node(3);
         secondSubtree.left = new Node(4);
-        System.out.println(isSubtree(tree,subtree));
-        System.out.println(isSubtree(tree,secondSubtree));
+        System.out.println(isSubTree(tree,subtree));
+        System.out.println(isSubTree(tree,secondSubtree));
 
     }
 
     // Here are two arrays of numbers. How to exchange values between arrays without any variable instantiation except for iterator for cycles?
-    private static void exchangeValues(int[] a, int[] b) {
+    static void exchangeValues(int[] a, int[] b) {
         for (int i = 0; i < a.length; i++) {
             a[i] = a[i] + b[i];
             b[i] = a[i] - b[i];
@@ -51,8 +60,17 @@ public class App {
         }
     }
 
+    static void exchangeValuesUsingBinaryOperator(int[] a, int[] b) {
+        for (int i = 0; i <a.length; i++) {
+            a[i] = a[i] ^ b[i];
+            b[i] = a[i] ^ b[i];
+            a[i] = a[i] ^ b[i];
+
+        }
+    }
+
     // There is almost an ordered array of numbers. Only one element is not in the proper place. How to find that element and move it to the right place?
-    private static void sortAlmostSortedArray(int[] array) {
+    static void sortAlmostSortedArray(int[] array) {
         for (int i = array.length - 1; i > 0; i--) {
             if (array[i] < array[i-1]) {
                 for (int j = i - 1; j >= 0; j--) {
@@ -69,10 +87,10 @@ public class App {
     //  How to understand that tree is a part of another tree?
     // I assumed that we are only consider binary tree with left, right node
 
-    private static boolean isSubtree(Node a, Node b) {
+    static boolean isSubTree(Node a, Node b) {
         if (a == null) return false;
         else if (isTheSameTree(a,b)) return true;
-        else return isSubtree(a.left,b) || isSubtree(a.right,b);
+        else return isSubTree(a.left,b) || isSubTree(a.right,b);
     }
 
     private static boolean isTheSameTree(Node a, Node b) {
